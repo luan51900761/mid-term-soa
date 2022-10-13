@@ -1,3 +1,13 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .link-item {
+    @apply relative before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded before:bg-orange-700 before:bottom-0 before:left-0 before:transition-all before:duration-300 before:transform before:scale-x-0 hover:before:scale-x-100;
+  }
+}
