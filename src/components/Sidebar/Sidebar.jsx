@@ -19,11 +19,7 @@ const Sidebar = () => {
             Lịch sử thanh toán
           </Link>
         </li>
-        <li className="p-3">
-          <Link to="/pay" className="link-item">
-            Nộp tiền
-          </Link>
-        </li>
+
         <li className="p-3">
           <Link to="/login" className="link-item">
             Đăng nhập
