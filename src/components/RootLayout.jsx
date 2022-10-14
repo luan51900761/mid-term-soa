@@ -5,7 +5,9 @@ const RootLayout = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <Outlet />
+      <div className=" max-w-3xl  basis-4/5  m-auto  shadow-slate-300 shadow-md">
+        <Outlet />
+      </div>
     </div>
   );
 };

@@ -6,14 +6,14 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Content from "./pages/Content";
-import Tuition from "./pages/Tuition";
+import PaymentHistory from "./pages/PaymentHistory";
 import RootLayout from "./components/RootLayout";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Content />} />
-        <Route path="/tuition" element={<Tuition />} />
+        <Route path="/payment-history" element={<PaymentHistory />} />
       </Route>
       <Route
         path="/login"
