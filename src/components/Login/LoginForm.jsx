@@ -1,45 +1,71 @@
 import React from "react";
-import { Form } from "react-router-dom";
-
+// import { Form } from "react-router-dom";
+import { Button, Checkbox, Form, Input } from "antd";
 const LoginForm = () => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
   return (
-    <Form>
-      <div className="mb-2">
-        <label
-          htmlFor="msv"
-          className="block text-gray-700 text-sm md:text-base font-bold mb-2"
-        >
-          Mã sinh viên
-        </label>
-        <input
-          type="text"
-          className="w-full border border-gray-300 focus:outline-none focus:border-sky-600 placeholder-slate-400 rounded-lg px-3 py-2"
-          id="msv"
-          placeholder="Nhập mã sinh viên"
-        />
-      </div>
-      {/* error */}
-      {/* <p className="mb-2 text-red-600">Something is very wrong</p> */}
+    <Form
+      name="basic"
+      labelCol={{
+        span: 7,
+      }}
+      wrapperCol={{
+        span: 17,
+      }}
+      // initialValues={{
+      //   remember: true,
+      // }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Mã sinh viên"
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập mã sinh viên! ",
+          },
+          {
+            // Mã sinh viên phải có 8 ký tự
+            min: 8,
+            max: 8,
+            message: "Mã sinh viên phải có 8 ký tự",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-      <div className="mb-4">
-        <label
-          htmlFor="password"
-          className=" block text-gray-700 text-sm font-bold mb-2 md:text-base"
-        >
-          Mật khẩu
-        </label>
-        <input
-          type="password"
-          className="w-full border focus:outline-none focus:border-sky-600  border-gray-300 placeholder-slate-400 rounded-lg px-3 py-2"
-          id="password"
-          placeholder="Nhập mật khẩu"
-        />
-      </div>
-      <div>
-        <button className="w-full bg-blue-500 text-white rounded-lg px-3 py-2 md:text-base hover:opacity-70">
-          Đăng nhập
-        </button>
-      </div>
+      <Form.Item
+        label="Mật khẩu"
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập mật khẩu!",
+          },
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          offset: 7,
+          // span: 17,
+        }}
+      >
+        <Button type="primary" htmlType="submit" className="w-full">
+          Submit
+        </Button>
+      </Form.Item>
     </Form>
   );
 };

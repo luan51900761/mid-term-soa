@@ -174,7 +174,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
       {/* error */}
       <div className="col-span-2">
         <div
-          className="flex items-center bg-red-500 text-white text-sm font-bold px-4 py-3"
+          className="flex items-center  bg-red-500 text-white text-sm font-bold px-4 py-2"
           role="alert"
         >
           <svg
@@ -184,7 +184,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
           >
             <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0zm1 16a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0zm0-8a1 1 0 1 1-1-1 1 1 0 0 1 1 1z" />
           </svg>
-          <p>Không đủ số dư để thanh toán</p>
+          <p className=" m-0">Không đủ số dư để thanh toán</p>
         </div>
       </div>
       {/* button */}

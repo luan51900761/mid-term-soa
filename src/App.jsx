@@ -13,12 +13,12 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Content />} />
-        <Route path="/payment-history" element={<PaymentHistory />} />
+        <Route path="/lich-su-thanh-toan" element={<PaymentHistory />} />
       </Route>
       <Route
         path="/login"
         element={<Login />}
-        errorElement={<p>An error occurred</p>}
+        // errorElement={<p>An error occurred</p>}
       />
     </>
   )
