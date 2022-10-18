@@ -12,7 +12,6 @@ const Tuition = () => {
         <tr>
           <td>12/1/2022</td>
           <td>10000000đ</td>
-
           <td className="text-green-500">Đã nộp</td>
         </tr>
       </tbody>

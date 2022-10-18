@@ -3,7 +3,7 @@ import React from "react";
 const FormTuition = ({ checkOtp, sendOtpHandler }) => {
   return (
     <form className="px-4 pt-6 pb-8 mb-4 bg-white rounded  grid gap-4 grid-cols-2">
-      <div className="">
+      <div>
         <div className="mb-4 ">
           <label
             className="block mb-2 text-sm font-bold text-gray-700"
@@ -88,6 +88,9 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
             id="fullname"
             type="text"
             placeholder="Nguyen van c"
+            readOnly
+            disabled
+            style={{ cursor: "not-allowed" }}
           />
         </div>
         <div className="mb-4 ">
@@ -108,7 +111,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
           />
           {/* <p className="text-xs italic text-red-500">
                     Please choose a password.
-                  </p> */}
+          </p> */}
         </div>
       </div>
       <h3 className="pt-4 text-2xl text-center col-span-2">
