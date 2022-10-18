@@ -22,6 +22,13 @@ const userSchema = new Schema(
       type: Number,
       default: 500000000,
     },
+    // array of transaction id
+    transactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Transaction",
+      },
+    ],
   },
   {
     timestamps: true,

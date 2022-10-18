@@ -1,22 +1,17 @@
 const User = require("../models/userModel.js");
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcrypt");
 let refreshTokens = [];
 
 const authController = {
   register: async (req, res) => {
-    console.log(req.body);
-    // try {
-    //   const newUser = new User({
-    //     username: req.body.username,
-    //     email: req.body.email,
-    //     password: hashedPassword,
-    //   });
-    //   await newUser.save();
-    //   res.status(200).json(newUser);
-    // } catch (err) {
-    //   return res.status(500).json({ msg: err.message });
-    // }
+    try {
+      const newUser = new User(req.body);
+      await newUser.save();
+      res.status(200).json(newUser);
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
   },
   generateToken: (user, secretKey, expires) => {
     console.log(typeof user, typeof secretKey, typeof expires);
@@ -27,7 +22,7 @@ const authController = {
   //   login
   login: async (req, res) => {
     try {
-      const user = await User.findOne({ email: req.body.email }).select(
+      const user = await User.findOne({ username: req.body.username }).select(
         "+password"
       );
       if (!user) return res.status(404).json({ msg: "User not found" });
@@ -40,7 +35,7 @@ const authController = {
       const accessToken = authController.generateToken(
         user,
         process.env.JWT_SECRET,
-        "20s"
+        "300s"
       );
       refreshTokens.push(accessToken);
       const refreshToken = authController.generateToken(

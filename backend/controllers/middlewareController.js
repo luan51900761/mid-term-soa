@@ -5,6 +5,7 @@ const { promisify } = require("util");
 const middlewareController = {
   verifyToken: async (req, res, next) => {
     const token = req.headers.authorization;
+    console.log(req.headers);
     if (!token)
       return res.status(403).json({ msg: "You are not authenticated " });
     const accessToken = token.split(" ")[1];
@@ -18,7 +19,7 @@ const middlewareController = {
       req.user = user;
       next();
     } catch (err) {
-      return res.status(500).json({ msg: "Token is not valid" });
+      return res.status(401).json({ msg: "Token is not valid" });
     }
   },
 };
