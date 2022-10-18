@@ -8,7 +8,7 @@ require("dotenv").config();
 // connect to mongodb
 const connect = require("./database/db");
 
-const indexRouter = require("./routes/index");
+const authRoute = require("./routes/authRoute");
 const usersRouter = require("./routes/users");
 
 const app = express();
@@ -33,7 +33,7 @@ app.use(
 //   if (!req.user) return next(createError(401, 'Please login to view this page.'))
 //   next()
 // })
-app.use("/", indexRouter);
+app.use("/", authRoute);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
