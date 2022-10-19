@@ -3,6 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
+const cors = require("cors");
 // dotenv
 require("dotenv").config();
 // connect to mongodb
@@ -13,7 +14,7 @@ const usersRouter = require("./routes/users");
 
 const app = express();
 connect();
-
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -33,8 +34,8 @@ app.use(
 //   if (!req.user) return next(createError(401, 'Please login to view this page.'))
 //   next()
 // })
-app.use("/v1/auth", authRoute);
-app.use("/v1/users", usersRouter);
+app.use("/v1/api/auth", authRoute);
+app.use("/v1/api/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,9 +1,13 @@
 import React from "react";
 // import { Form } from "react-router-dom";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLoginUser } from "../../store/user/userSlice";
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.user.error);
   const onFinish = (values) => {
-    console.log("Success:", values);
+    dispatch(fetchLoginUser(values));
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -56,10 +60,11 @@ const LoginForm = () => {
         <Input.Password />
       </Form.Item>
 
+      {error && <p className="text-red-500 ml-15">{error}</p>}
+
       <Form.Item
         wrapperCol={{
-          offset: 7,
-          // span: 17,
+          span: 24,
         }}
       >
         <Button type="primary" htmlType="submit" className="w-full">

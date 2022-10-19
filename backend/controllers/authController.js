@@ -25,13 +25,16 @@ const authController = {
       const user = await User.findOne({ username: req.body.username }).select(
         "+password"
       );
-      if (!user) return res.status(404).json({ msg: "User not found" });
+      if (!user)
+        return res.status(404).json({ msg: "Không tìm thấy tài khoản!" });
       const validPassword = await bcrypt.compare(
         req.body.password,
         user.password
       );
       if (!validPassword)
-        return res.status(400).json({ msg: "Wrong password" });
+        return res
+          .status(400)
+          .json({ msg: "Tài khoản hoặc mật khẩu bạn không đúng!" });
       const accessToken = authController.generateToken(
         user,
         process.env.JWT_SECRET,
@@ -51,6 +54,7 @@ const authController = {
         sameSite: "strict",
       });
       const { password, ...others } = user._doc;
+      req.user = { ...others };
       return res.status(200).json({ ...others, token: accessToken });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
