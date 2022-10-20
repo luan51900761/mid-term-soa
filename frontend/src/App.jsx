@@ -8,6 +8,9 @@ import Login from "./pages/Login";
 import Content from "./pages/Content";
 import PaymentHistory from "./pages/PaymentHistory";
 import RootLayout from "./components/RootLayout";
+import { useSelector } from "react-redux";
+import { selectUser } from "./store/user/userSelect";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -25,6 +28,10 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const user = useSelector(selectUser);
+  if (!user) {
+    router.navigate("/login");
+  }
   return <RouterProvider router={router} />;
 }
 

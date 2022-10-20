@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar/Sidebar";
+
 import {
   InfoCircleOutlined,
   HistoryOutlined,
@@ -7,7 +7,10 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React from "react";
-const { Header, Content, Footer, Sider } = Layout;
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/user/userSelect";
+import NotLoggin from "../pages/NotLoggin";
+const { Content, Sider } = Layout;
 
 const labelSidebar = [
   {
@@ -26,65 +29,59 @@ const labelSidebar = [
 
 const RootLayout = () => {
   const navigate = useNavigate();
+  // if not login, redirect to login page
+  const user = useSelector(selectUser);
+
   return (
-    // <div className="flex">
-    //   <Sidebar />
-    //   <div className=" max-w-3xl  basis-4/5  m-auto  shadow-slate-300 shadow-md">
-    //     <Outlet />
-    //   </div>
-    // </div>
-    <Layout className="">
-      <Sider
-        className="min-h-screen"
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          onClick={({ key }) => {
-            navigate(key);
+    (!user && <NotLoggin />) ||
+    (user && (
+      <Layout className="">
+        <Sider
+          className="min-h-screen"
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={(broken) => {
+            console.log(broken);
           }}
-          items={[InfoCircleOutlined, HistoryOutlined, LogoutOutlined].map(
-            (icon, index) => ({
-              key: labelSidebar[index].link,
-              icon: React.createElement(icon),
-              label: labelSidebar[index].label,
-            })
-          )}
-        />
-      </Sider>
-      <Layout>
-        {/* <Header
-          className="site-layout-sub-header-background"
-          style={{
-            padding: 0,
-          }}
-        /> */}
-        <Content
-          style={{
-            margin: "24px 16px 0",
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
           }}
         >
-          <div
-            className="site-layout-background"
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            onClick={({ key }) => {
+              navigate(key);
+            }}
+            items={[InfoCircleOutlined, HistoryOutlined, LogoutOutlined].map(
+              (icon, index) => ({
+                key: labelSidebar[index].link,
+                icon: React.createElement(icon),
+                label: labelSidebar[index].label,
+              })
+            )}
+          />
+        </Sider>
+        <Layout>
+          <Content
             style={{
-              padding: 24,
-              minHeight: 360,
+              margin: "24px 16px 0",
             }}
           >
-            <Outlet />
-          </div>
-        </Content>
+            <div
+              className="site-layout-background"
+              style={{
+                padding: 24,
+                minHeight: 360,
+              }}
+            >
+              <Outlet />
+            </div>
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    ))
   );
 };
 

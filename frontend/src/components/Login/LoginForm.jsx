@@ -1,13 +1,18 @@
 import React from "react";
 // import { Form } from "react-router-dom";
 import { Button, Form, Input } from "antd";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginUser } from "../../store/user/userSlice";
+import { selectError, selectStatus } from "../../store/user/userSelect";
+import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.user.error);
-  const onFinish = (values) => {
-    dispatch(fetchLoginUser(values));
+  const navigate = useNavigate();
+  const error = useSelector(selectError);
+  const status = useSelector(selectStatus);
+  const onFinish = (user) => {
+    dispatch(fetchLoginUser({ user, navigate }));
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -60,15 +65,25 @@ const LoginForm = () => {
         <Input.Password />
       </Form.Item>
 
-      {error && <p className="text-red-500 ml-15">{error}</p>}
+      {error && (
+        <Form.Item
+          wrapperCol={{
+            offset: 6,
+            span: 18,
+          }}
+        >
+          <p style={{ color: "red" }}>{error}</p>
+        </Form.Item>
+      )}
 
       <Form.Item
         wrapperCol={{
-          span: 24,
+          offset: 7,
+          span: 6,
         }}
       >
         <Button type="primary" htmlType="submit" className="w-full">
-          Submit
+          {status == "loading" ? "loading..." : "Submit"}
         </Button>
       </Form.Item>
     </Form>

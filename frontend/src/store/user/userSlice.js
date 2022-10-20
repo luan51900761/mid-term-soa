@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchLoginUser = createAsyncThunk(
   "user/fetchLoginUser",
-  async (user, { rejectWithValue }) => {
+  async ({ user, navigate }, { rejectWithValue }) => {
     try {
       const res = await fetch("http://localhost:3000/v1/api/auth/login", {
         method: "POST",
@@ -21,6 +21,7 @@ export const fetchLoginUser = createAsyncThunk(
         return rejectWithValue(error);
       }
       const data = await res.json();
+      navigate("/");
       return data;
     } catch (err) {
       console.log(err);
@@ -49,6 +50,7 @@ const userSlice = createSlice({
       state.status = "succeeded";
       // Add any fetched posts to the array
       state.user = action.payload;
+      state.error = null;
     },
     [fetchLoginUser.rejected]: (state, action) => {
       state.status = "failed";
