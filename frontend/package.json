@@ -1,6 +1,7 @@
 {
   "name": "mid-term-soa",
   "private": true,
+  "proxy": "http://localhost:3000",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -12,10 +13,12 @@
     "@reduxjs/toolkit": "^1.8.6",
     "antd": "^4.23.5",
     "axios": "^1.1.3",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
+    "redux-deep-persist": "^1.0.6",
     "redux-persist": "^6.0.0",
     "reselect": "^4.1.6"
   },

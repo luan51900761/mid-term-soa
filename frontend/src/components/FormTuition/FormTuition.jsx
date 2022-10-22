@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectBalance, selectUser } from "../../store/user/userSelect";
 
 const FormTuition = ({ checkOtp, sendOtpHandler }) => {
+  const user = useSelector(selectUser);
+  const balance = useSelector(selectBalance);
   return (
     <form className="px-4 pt-6 pb-8 mb-4 bg-white rounded  grid gap-4 grid-cols-2">
       <div>
@@ -16,7 +20,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
             id="username"
             type="text"
             readOnly
-            value="Nguyen van c"
+            value={user.fullname}
             disabled
             style={{ cursor: "not-allowed" }}
           />
@@ -34,7 +38,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
             id="email"
             type="email"
             readOnly
-            value="123@gmail.com"
+            value={user.email}
             disabled
             style={{ cursor: "not-allowed" }}
           />
@@ -53,7 +57,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
             readOnly
             disabled
             style={{ cursor: "not-allowed" }}
-            value={"0123654789"}
+            value={user.phone}
           />
           {/* <p className="text-xs italic text-red-500">
                     Please choose a password.
@@ -87,7 +91,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
             className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             id="fullname"
             type="text"
-            placeholder="Nguyen van c"
+            value={user.fullname}
             readOnly
             disabled
             style={{ cursor: "not-allowed" }}
@@ -133,7 +137,7 @@ const FormTuition = ({ checkOtp, sendOtpHandler }) => {
           readOnly
           disabled
           style={{ cursor: "not-allowed" }}
-          value={"10.000.000đ"}
+          value={balance}
         />
       </div>
       <div className="mb-4 ">

@@ -7,10 +7,12 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../store/user/userSelect";
 import NotLoggin from "../pages/NotLoggin";
+import { createAxios } from "../../utils/apiRequestAxios";
 const { Content, Sider } = Layout;
+import { fetchLogoutUser, logoutSuccess } from "../store/user/userSlice";
 
 const labelSidebar = [
   {
@@ -29,9 +31,14 @@ const labelSidebar = [
 
 const RootLayout = () => {
   const navigate = useNavigate();
-  // if not login, redirect to login page
-  const user = useSelector(selectUser);
 
+  const user = useSelector(selectUser);
+  const token = user?.token;
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(user, dispatch, logoutSuccess);
+  const handleLogout = () => {
+    dispatch(fetchLogoutUser({ axiosJWT, token, navigate }));
+  };
   return (
     (!user && <NotLoggin />) ||
     (user && (
@@ -41,10 +48,10 @@ const RootLayout = () => {
           breakpoint="lg"
           collapsedWidth="0"
           onBreakpoint={(broken) => {
-            console.log(broken);
+            // console.log(broken);
           }}
           onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
+            // console.log(collapsed, type);
           }}
         >
           <Menu
@@ -52,7 +59,11 @@ const RootLayout = () => {
             mode="inline"
             defaultSelectedKeys={["1"]}
             onClick={({ key }) => {
-              navigate(key);
+              if (key === "/dang-xuat") {
+                handleLogout();
+              } else {
+                navigate(key);
+              }
             }}
             items={[InfoCircleOutlined, HistoryOutlined, LogoutOutlined].map(
               (icon, index) => ({

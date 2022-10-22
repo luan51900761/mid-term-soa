@@ -1,6 +1,7 @@
 const User = require("../models/userModel.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+
 let refreshTokens = [];
 
 const authController = {
@@ -70,8 +71,7 @@ const authController = {
           .status(403)
           .json({ msg: "Your refresh token is not valid or has expired" });
 
-      refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-
+      refreshTokens = refreshTokens.filter((token) => token !== user.token);
       const accessToken = authController.generateToken(
         user,
         process.env.JWT_SECRET,
@@ -87,16 +87,18 @@ const authController = {
         secure: false,
         path: "/",
         maxAge: 365 * 24 * 60 * 60 * 1000,
-        sameSite: "strict",
+        sameSite: "none",
       });
       res.status(200).json({ token: accessToken });
     });
   },
   logout: function (req, res) {
     res.clearCookie("refreshToken");
-    refreshTokens = refreshTokens.filter(
-      (token) => token !== req.cookie.refreshToken
-    );
+    // remove refresh token from refreshTokens array
+    refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+    // refreshTokens = refreshTokens.filter(
+    //   (token) => token !== req.cookie.refreshToken
+    // );
     res.status(200).json({ msg: "Logged out" });
   },
 };

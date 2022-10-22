@@ -14,17 +14,27 @@ const usersRouter = require("./routes/users");
 
 const app = express();
 connect();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.set("trust proxy", 1);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser("my secret"));
+app.use(cookieParser());
 app.use(
   session({
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: false,
+      sameSite: "none",
+    },
   })
 );
 

@@ -1,6 +1,6 @@
 const Tuition = () => {
   return (
-    <table class="table-fixed w-full p-4 text-center">
+    <table className="table-fixed w-full p-4 text-center">
       <thead>
         <tr>
           <th>Ngày giao dịch</th>

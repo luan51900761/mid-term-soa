@@ -9,15 +9,16 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import { getPersistConfig } from "redux-deep-persist";
 import storage from "redux-persist/lib/storage";
 import rootReducer from "./rootReducer";
-
-const persistConfig = {
+// remove error storage in user persistConfig how
+const persistConfig = getPersistConfig({
   key: "root",
-  version: 1,
-  blacklist: ["user"],
   storage,
-};
+  blacklist: ["user.error", "user.status"],
+  rootReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
