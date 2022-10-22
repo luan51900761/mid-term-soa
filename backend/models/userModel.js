@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    username: String,
+    username: {
+      type: String,
+      unique: true,
+    },
     password: {
       type: String,
       select: false,
@@ -20,7 +23,7 @@ const userSchema = new Schema(
     fullname: String,
     balance: {
       type: Number,
-      default: 500000000,
+      default: 50000000,
     },
     // array of transaction id
     transactions: [
