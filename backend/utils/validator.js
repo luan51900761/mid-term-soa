@@ -1,6 +1,6 @@
 const { check, body } = require('express-validator');
 const User = require('../models/userModel');
-
+const TuitionBill = require('../models/tuitionBillModel');
 exports.payTuititonValidator = [
 	check('username')
 		.exists()
@@ -12,11 +12,14 @@ exports.payTuititonValidator = [
 		.isString()
 		.withMessage('Mã số sinh viên không hợp lệ')
 		.custom((value, { req }) => {
-			return User.findOne({ username: value }).then(user => {
-				if (user) { 
+			return TuitionBill.findOne({ username: value }).then(tuitionBill => {
+				if (tuitionBill) { 
+					if(tuitionBill.paid === tuitionBill.tuition) {
+						throw new Error('Sinh viên này đã hoàn thành việc thanh toán học phí!');
+					}
 					return true;
 				}
-				throw new Error('Mã số sinh viên không tồn tại');
+				throw new Error('Không tìm thấy mã số sinh viên');
 			});
 		}),
 	

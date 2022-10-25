@@ -12,6 +12,6 @@ const tuitionBillSchema = new Schema(
   }
 );
 
-const Tuition = mongoose.model("Tuition", tuitionSchema);
+const Tuition = mongoose.model("TuitionBill", tuitionSchema);
 
-module.exports = Tuition;
+module.exports = TuitionBill;
