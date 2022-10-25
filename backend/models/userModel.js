@@ -25,6 +25,10 @@ const userSchema = new Schema(
       type: Number,
       default: 50000000,
     },
+    currentTracsaction: {
+      type: String,
+      default: "none",
+    },
     // array of transaction id
     transactions: [
       {
