@@ -4,6 +4,7 @@ const OTP = require('../models/otpModel');
 const TuitionBill = require('../models/tuitionBillModel');
 const { validationResult } = require('express-validator');
 const { promisify } = require("util");
+const jwt = require("jsonwebtoken");
 class UserController {
 	async payTuition(req, res, next) {
 		const errors = await validationResult(req);
@@ -19,13 +20,15 @@ class UserController {
 
 	async test (req, res, next) {
 		const token = req.headers.authorization;
+		console.log(token);
 		try {
 			const decoded = await promisify(jwt.verify)(
 			  accessToken,
 			  process.env.JWT_SECRET
 			);
+			console.log("decoded"+ decoded);
 			if (!decoded) return res.status(401).json({ msg: "Invalid token" });
-			console.log()
+			
 			const user = await User.findById(decoded.id);
 			req.user = user;
 			next();
@@ -35,3 +38,5 @@ class UserController {
 		res.status(200).json({user, tuitionBill});
 	}
 }
+
+module.exports = new UserController();
