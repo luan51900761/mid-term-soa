@@ -13,11 +13,46 @@ class UserController {
 				status: "Thất bại",
 				msg: errors.array()[0].msg });
 		}else {
-			const {username} = req.body 
-			
+			try{
+			TuitionBill.findOneAndUpdate(
+				{ 
+					username: req.body.username 
+				},
+				{
+					paid: req.body.paid
+				}, function (err, bill) {
+				if (bill) return res.status(200).json({ msg: "successfully updated"});
+				return res.status(401).json({ msg: "error" });
+			  });
+			} catch (error) {
+				return res.status(401).json({ msg: "error" });
+			}
 		}
-	}
-
+	} 
+	async createTransaction(req, res, next) {
+		const errors = await validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ 
+				status: "Thất bại",
+				msg: errors.array()[0].msg });
+		}else {
+			try{
+				console.log(req.body.receiveremail)
+				Transaction.insertMany(
+					{ 
+						senderUsername: req.body.username,
+						receiverUsername: req.body.receiverusername, 
+						receiverEmail: req.body.receiveremail ,
+						tuition: req.body.tuition 	
+					}, function (err, transaction) {
+				if (transaction) return res.status(200).json({ msg: "successfully created"});
+				return res.status(401).json({ msg: "error" });
+			  });
+			} catch (error) {
+				return res.status(401).json({ msg: "error" });
+			}
+		}
+	} 
 	async test (req, res, next) {
 		const token = req.headers.authorization;
 		console.log(token);
@@ -37,6 +72,26 @@ class UserController {
 		 }
 		res.status(200).json({user, tuitionBill});
 	}
+	async getUser(req, res, next) {
+		const errors = await validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ 
+				status: "Thất bại",
+				msg: errors.array()[0].msg });
+		}else {
+			try {
+			User.findOne(
+				{
+					 username: req.body.username
+				}, function (err, user) {
+				if (user) return res.status(200).json({ msg: "success", data: user });
+				return res.status(401).json({ msg: "username not found" });
+			  });
+			} catch (error) {
+				return res.status(401).json({ msg: "error" });
+			}
+		}
+	} 
 }
 
 module.exports = new UserController();

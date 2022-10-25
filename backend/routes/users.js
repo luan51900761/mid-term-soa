@@ -7,5 +7,8 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/pay-tuition", userController.payTuition);
+router.post("/create-transaction", userController.createTransaction);
 router.get("/test", userController.test);
+router.post("/get-user", userController.getUser);
+
 module.exports = router;
