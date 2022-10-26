@@ -11,6 +11,7 @@ const connect = require("./database/db");
 
 const authRoute = require("./routes/authRoute");
 const usersRouter = require("./routes/users");
+const tuitionBillRouter = require("./routes/tuitionBill");
 
 const app = express();
 connect();
@@ -21,9 +22,10 @@ app.use(
   })
 );
 app.set("trust proxy", 1);
+
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   session({
@@ -46,6 +48,7 @@ app.use(
 // })
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/users", usersRouter);
+app.use("/v1/api/tuition-bill", tuitionBillRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -60,7 +63,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.status(500).json({message: err});
 });
 
 const PORT = process.env.PORT || 3000;

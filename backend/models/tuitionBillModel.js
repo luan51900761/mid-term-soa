@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const tuitionBillSchema = new Schema(
   {
-    username: String, // username of the tutor
+    username: {type: String, unique: true}, // username of the tutor
     tuition: Number, // tiền cần phải nộp
-    paid: Number, // tiền đã nộp
+    paid: {type : Number, default : 0}, // tiền đã nộp
   },
   {
     timestamps: true,

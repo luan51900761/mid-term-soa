@@ -25,7 +25,7 @@ const userSchema = new Schema(
       type: Number,
       default: 50000000,
     },
-    currentTracsaction: {
+    currentTransaction: {
       type: String,
       default: "none",
     },

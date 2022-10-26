@@ -11,7 +11,7 @@ const transactionSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		receiverEmail: {
+		senderEmail: {
 			type: String,
 			required: true,
 		},

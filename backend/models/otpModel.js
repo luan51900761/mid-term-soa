@@ -12,6 +12,10 @@ const otpSchema = new Schema(
 		email: {
 			type: String,
 		},
+		transaction: {
+			type: String,
+			default:''
+		},
 		expiredAt: {
 			type: Date,
 			default: Date.now() + 60 * 1000 * 3,
