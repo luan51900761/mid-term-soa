@@ -41,6 +41,7 @@ const authController = {
         process.env.JWT_SECRET,
         "600s"
       );
+      console.log(accessToken)
       refreshTokens.push(accessToken);
       const refreshToken = authController.generateToken(
         user,
@@ -56,7 +57,6 @@ const authController = {
       });
       const { password, ...others } = user._doc;
       req.user = { ...others };
-      console.log(accessToken);
       return res.status(200).json({ ...others, token: accessToken });
     } catch (err) {
       return res.status(500).json({ msg: err.message });

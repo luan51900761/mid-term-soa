@@ -21,7 +21,11 @@ router.get(
 	userController.cancelTransaction
 );
 
-router.get('/get-otp', middlewareController.verifyToken, userController.getOTP);
+router.get(
+	'/get-otp', 
+	middlewareController.verifyToken, 
+	userController.getOTP
+);
 
 router.post(
 	'/verify-otp',
@@ -31,7 +35,17 @@ router.post(
 );
 
 router.get('/test', userController.test);
-router.post('/create-transaction', userController.createTransaction);
-router.post('/get-user', userController.getUser);
+
+router.post(
+	'/get-user', 
+	middlewareController.verifyToken,
+	userController.getUser
+);
+
+router.get(
+	'/get-all-transactions', 
+	middlewareController.verifyToken,
+	userController.getAllTransactions
+);
 
 module.exports = router;

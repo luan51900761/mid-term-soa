@@ -19,17 +19,16 @@ class UserController {
 		} else {
 			const { username } = req.body;
 			const user = await User.findOne({ username: username });
-
 			const tuitionBill = await TuitionBill.findOne({ username: username });
 
 			const generateOTP = await Math.floor(100000 + Math.random() * 900000);
-
 			const otp = await OTP.create({
 				otp: generateOTP,
-				username: req.user.username,
+				username: req.user.username,	
 				email: req.user.email,
 				expiredAt: Date.now() + 1000 * 60 * 2,
 			});
+			console.log(otp)
 
 			const transaction = await Transaction.create({
 				senderUsername: req.user.username,
@@ -95,7 +94,7 @@ class UserController {
 			);
 			res.status(200).json({
 				status: 'Thành công',
-				message: `Thanh toán học phí cho thành công`,
+				message: `Thanh toán học phí thành công`,
 			});
 		}
 	}
@@ -154,34 +153,6 @@ class UserController {
 		});
 	}
 
-	async createTransaction(req, res, next) {
-		const errors = await validationResult(req);
-		if (!errors.isEmpty()) {
-			return res.status(400).json({
-				status: 'Thất bại',
-				msg: errors.array()[0].msg,
-			});
-		} else {
-			try {
-				console.log(req.body.receiveremail);
-				Transaction.insertMany(
-					{
-						senderUsername: req.body.username,
-						receiverUsername: req.body.receiverusername,
-						receiverEmail: req.body.receiveremail,
-						tuition: req.body.tuition,
-					},
-					function (err, transaction) {
-						if (transaction)
-							return res.status(200).json({ msg: 'successfully created' });
-						return res.status(401).json({ msg: 'error' });
-					}
-				);
-			} catch (error) {
-				return res.status(401).json({ msg: 'error' });
-			}
-		}
-	}
 	async test(req, res, next) {
 		const token = req.headers.authorization;
 		console.log(token);
@@ -198,6 +169,8 @@ class UserController {
 		}
 		res.status(200).json({ user, tuitionBill });
 	}
+
+	//POST /get-user
 	async getUser(req, res, next) {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty()) {
@@ -210,6 +183,31 @@ class UserController {
 				User.findOne(
 					{
 						username: req.body.username,
+					},
+					function (err, user) {
+						if (user) return res.status(200).json({ msg: 'success', data: user });
+						return res.status(401).json({ msg: 'Không tìm thấy sinh viên' });
+					}
+				);
+			} catch (error) {
+				return res.status(401).json({ msg: 'error' });
+			}
+		}
+	}
+
+	//GET /get-all-transactions
+	async getAllTransactions(req, res, next) {
+		const errors = await validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({
+				status: 'Thất bại',
+				msg: errors.array()[0].msg,
+			});
+		} else {
+			try {
+				Transaction.find(
+					{
+					senderUsername: req.user.username
 					},
 					function (err, user) {
 						if (user) return res.status(200).json({ msg: 'success', data: user });

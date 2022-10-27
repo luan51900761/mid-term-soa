@@ -2,7 +2,7 @@ const TuitionBill = require('../models/tuitionBillModel');
 
 class TuitionBillController {
 	async addTuitionBill(req, res) {
-		const { username, tuition, paid } = req.body;
+		const { username, tuition, paid, lockTime } = req.body;
 
 		const checkTuitionBill = await TuitionBill.findOne({ username: username });
 
@@ -16,6 +16,7 @@ class TuitionBillController {
 				username,
 				tuition,
 				paid,
+				lockTime
 			});
 
 			res.status(200).json({

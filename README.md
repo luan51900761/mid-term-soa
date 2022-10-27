@@ -28,3 +28,12 @@ POST http://localhost:3000/v1/api/tuition-bill/add-tuition-bill
 	tuition,
 	paid
 }
+
+##Lấy thông tin user
+POST http://localhost:3000/v1/api/users/get-user
+{
+	username
+}
+
+##Lấy transactions của user
+GET http://localhost:3000/v1/api/users/get-all-transactions
