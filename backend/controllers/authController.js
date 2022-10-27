@@ -39,7 +39,7 @@ const authController = {
       const accessToken = authController.generateToken(
         user,
         process.env.JWT_SECRET,
-        "300s"
+        "600s"
       );
       refreshTokens.push(accessToken);
       const refreshToken = authController.generateToken(
@@ -76,7 +76,7 @@ const authController = {
       const accessToken = authController.generateToken(
         user,
         process.env.JWT_SECRET,
-        "300s"
+        "600s"
       );
       const refreshToken = authController.generateToken(
         user,
