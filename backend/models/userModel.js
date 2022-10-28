@@ -12,6 +12,10 @@ const userSchema = new Schema(
       type: String,
       select: false,
     },
+    name: {
+      type: String,
+      unique: true,
+    },
     email: {
       type: String,
       unique: true,

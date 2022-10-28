@@ -160,7 +160,6 @@ class UserController {
 			const decoded = await promisify(jwt.verify)(accessToken, process.env.JWT_SECRET);
 			console.log('decoded' + decoded);
 			if (!decoded) return res.status(401).json({ msg: 'Invalid token' });
-
 			const user = await User.findById(decoded.id);
 			req.user = user;
 			next();
@@ -180,15 +179,10 @@ class UserController {
 			});
 		} else {
 			try {
-				User.findOne(
-					{
-						username: req.body.username,
-					},
-					function (err, user) {
-						if (user) return res.status(200).json({ msg: 'success', data: user });
-						return res.status(401).json({ msg: 'Không tìm thấy sinh viên' });
-					}
-				);
+				const user = await User.findOne({username: req.body.username});
+				const tuition = await TuitionBill.findOne({username: req.body.username});
+				if (user) return res.status(200).json({ msg: 'success', data: {user,tuition: tuition.tuition}});
+				return res.status(401).json({ msg: 'Không tìm thấy sinh viên' });
 			} catch (error) {
 				return res.status(401).json({ msg: 'error' });
 			}
